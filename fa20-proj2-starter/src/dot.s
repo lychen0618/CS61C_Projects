@@ -51,5 +51,5 @@ loop_end:
     ret
 
 excep:
-    mv a0, t0
-    ecall
+    mv a1, t0
+    j exit2

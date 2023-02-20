@@ -42,5 +42,5 @@ loop_end:
     ret
 
 excep:
-    addi a0, x0, 77
-    ecall
+    li a1, 77
+    j exit2
