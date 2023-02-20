@@ -12,8 +12,9 @@ abs:
     # Prologue
 
     # return 0
-    mv a0, zero
-
+    bge a0, x0, skip
+    sub a0, x0, a0
+skip:
     # Epilogue
 
     ret
