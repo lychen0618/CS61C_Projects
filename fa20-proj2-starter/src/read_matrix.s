@@ -27,16 +27,97 @@
 read_matrix:
 
     # Prologue
-	
+	addi sp, sp, -28
+    sw ra, 0(sp)
+    sw s0, 4(sp)
+    sw s1, 8(sp)
+    sw s2, 12(sp)
+    sw s3, 16(sp)
+    sw s4, 20(sp)
+    sw s5, 24(sp)
 
+    mv s0, a0
+    mv s1, a1
+    mv s2, a2
 
+    mv a1, a0
+    li a2, 0
+    jal fopen
 
+    li t0, -1
+    beq a0, t0, exit90
+    mv s3, a0 # file descriptor
 
+    # read row number
+    mv a1, s3
+    mv a2, s1
+    li a3, 4
+    jal fread
+    li t0, 4
+    bne a0, t0, exit91
+    
+    # read col number
+    mv a1, s3
+    mv a2, s2
+    li a3, 4
+    jal fread
+    li t0, 4
+    bne a0, t0, exit91
 
+    # malloc mem for matrix
+    lw t0, 0(s1)
+    lw t1, 0(s2)
+    mul t0, t0, t1
+    slli t1, t0, 2
+    mv s4, t1
+    mv a0, s4
+    jal malloc
+    beq a0, zero, exit88
 
+    mv s5, a0 # s5 store the mem allocated for matrix
 
+    # read matrix
+    mv a3, s4
+    mv a2, s5
+    mv a1, s3
+
+    jal fread
+    bne a0, s4, exit91
+
+    # close the file
+    mv a1, s3
+    jal fclose
+    
+    li t0, -1
+    beq a0, t0, exit92
+
+    # output
+    mv a0, s5
 
     # Epilogue
-
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    lw s1, 8(sp)
+    lw s2, 12(sp)
+    lw s3, 16(sp)
+    lw s4, 20(sp)
+    lw s5, 24(sp)
+    addi sp, sp, 28
 
     ret
+
+exit88:
+    li a1, 88
+    j exit2
+
+exit90:
+    li a1, 90
+    j exit2
+
+exit91:
+    li a1, 91
+    j exit2
+
+exit92:
+    li a1, 92
+    j exit2
