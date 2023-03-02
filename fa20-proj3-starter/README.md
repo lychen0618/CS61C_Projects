@@ -9,3 +9,5 @@
 $ cd tests/part_a/addi_pipelined
 $ python3 binary_to_hex_cpu.py student_output/CPU-addi-pipelined-student.out
 ```
+
+2. Part-B(TODO)
